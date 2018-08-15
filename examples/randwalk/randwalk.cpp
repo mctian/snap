@@ -21,16 +21,33 @@ void ShowForwardReverseTimeForTuning(const PNGraph& Graph) {
   printf("Total time for %d pairs: %g\n", pairCount, w.GetSec());
 }
 
+void ComputePersonalImportances(const PNGraph& Graph) {
+    TTmStopWatch w;
+    w.Start();
+    for (int i = 0; i < Graph->GetEdges(); i++)
+    {
+        for (int j = 0; j < Graph->GetEdges(); j++)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+            else
+            {
+                printf("\nRandom Walk with Restart (Personalized PageRank) from node %d to node %d: %g\n", i, j, TSnap::GetRndWalkRestartBidirectional(Graph, 0.2, i, j));
+            }
+        }
+    }
+    printf("Total time for %d nodes: %g\n", Graph->GetEdges(), w.GetSec());
+}
+
 int main(int argc, char* argv[]) {
   Env = TEnv(argc, argv, TNotify::StdNotify);
   Env.PrepArgs(TStr::Fmt("RandWalk. build: %s, %s. Time: %s", __TIME__, __DATE__, TExeTm::GetCurTm()));
   Try
-  const TStr InFNm = Env.GetIfArgPrefixStr("-i:", "../as20graph.txt", "Input un/directed graph");
+  const TStr InFNm = Env.GetIfArgPrefixStr("-i:", "./graph.txt", "Input un/directed graph");
   PNGraph Graph = TSnap::LoadEdgeList<PNGraph>(InFNm);
-  
-  BasicUsage(Graph);
-  ShowForwardReverseTimeForTuning(Graph);
-  
+  ComputePersonalImportances(Graph); 
   Catch
   return 0;
 }
