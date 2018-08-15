@@ -34,11 +34,11 @@ void ComputePersonalImportances(const PNGraph& Graph) {
             }
             else
             {
-                printf("\nRandom Walk with Restart (Personalized PageRank) from node %d to node %d: %g\n", i, j, TSnap::GetRndWalkRestartBidirectional(Graph, 0.2, i, j));
+                printf("\n%d %d: %g", i, j, TSnap::GetRndWalkRestartBidirectional(Graph, 0.2, i, j));
             }
         }
     }
-    printf("Total time for %d nodes: %g\n", Graph->GetNodes(), w.GetSec());
+    printf("\nTotal time for %d nodes: %g\n", Graph->GetNodes(), w.GetSec());
 }
 
 int main(int argc, char* argv[]) {
